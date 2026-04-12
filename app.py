@@ -1,163 +1,96 @@
 from flask import Flask, render_template, request, redirect, session
-import sqlite3
-from datetime import datetime
-import os
+import sqlite3, os, datetime
 
 app = Flask(__name__)
-app.secret_key = "secure_key"
+app.secret_key = "store_secret_key"
 
-# ✔ Use temporary folder for database (Render compatible)
-DB = "/tmp/store.db"
+DB = "store.db"
 
-# ---------------------- DATABASE SETUP ----------------------
-def init_db():
-    if not os.path.exists(DB):
-        conn = sqlite3.connect(DB)
-        c = conn.cursor()
+def get_db():
+    return sqlite3.connect(DB)
 
-        c.execute("""
-        CREATE TABLE users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
-        );
-        """)
-
-        c.execute("""
-        CREATE TABLE items(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            item_name TEXT,
-            size TEXT,
-            color TEXT,
-            quantity INTEGER,
-            price REAL,
-            timestamp TEXT
-        );
-        """)
-
-        conn.commit()
-        conn.close()
-
-init_db()
-
-# ---------------------- HOME ----------------------
 @app.route("/")
 def home():
-    if "user" in session:
-        return redirect("/dashboard")
     return redirect("/login")
 
-# ---------------------- REGISTER ----------------------
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        user = request.form["username"]
-        pw = request.form["password"]
-
-        conn = sqlite3.connect(DB)
-        c = conn.cursor()
-
-        try:
-            c.execute("INSERT INTO users(username, password) VALUES(?, ?)", (user, pw))
-            conn.commit()
-            conn.close()
-            return redirect("/login")
-        except:
-            return "Username already exists!"
-
-    return render_template("register.html")
-
-# ---------------------- LOGIN ----------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        user = request.form["username"]
-        pw = request.form["password"]
+        u = request.form["username"]
+        p = request.form["password"]
 
-        conn = sqlite3.connect(DB)
-        c = conn.cursor()
-        c.execute("SELECT * FROM users WHERE username=? AND password=?", (user, pw))
-        data = c.fetchone()
-        conn.close()
+        con = get_db()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM users WHERE username=? AND password=?", (u,p))
+        user = cur.fetchone()
 
-        if data:
-            session["user"] = user
+        if user:
+            session["user"] = u
             return redirect("/dashboard")
         else:
-            return "Invalid username or password"
-
+            return render_template("login.html", error="Invalid login")
+    
     return render_template("login.html")
 
-# ---------------------- LOGOUT ----------------------
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        u = request.form["username"]
+        p = request.form["password"]
 
-# ---------------------- DASHBOARD ----------------------
+        con = get_db()
+        cur = con.cursor()
+        cur.execute("INSERT INTO users(username,password) VALUES (?,?)", (u,p))
+        con.commit()
+        return redirect("/login")
+    
+    return render_template("register.html")
+
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
         return redirect("/login")
+
     return render_template("dashboard.html")
 
-# ---------------------- ADD ITEM ----------------------
-@app.route("/add_item", methods=["GET", "POST"])
+@app.route("/add_item", methods=["GET","POST"])
 def add_item():
     if "user" not in session:
         return redirect("/login")
 
     if request.method == "POST":
-        item_name = request.form["item_name"]
+        name = request.form["item_name"]
         size = request.form["size"]
         color = request.form["color"]
-        quantity = int(request.form["quantity"])
-        price = float(request.form["price"])
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        qty = request.form["quantity"]
+        price = request.form["price"]
+        time = datetime.datetime.now()
 
-        conn = sqlite3.connect(DB)
-        c = conn.cursor()
-        c.execute("INSERT INTO items(item_name, size, color, quantity, price, timestamp) VALUES(?,?,?,?,?,?)",
-                  (item_name, size, color, quantity, price, timestamp))
-        conn.commit()
-        conn.close()
-
-        return redirect("/transactions")
+        con = get_db()
+        cur = con.cursor()
+        cur.execute("""
+            INSERT INTO inventory(item_name,size,color,quantity,price,timestamp)
+            VALUES (?,?,?,?,?,?)
+        """, (name,size,color,qty,price,time))
+        con.commit()
+        return redirect("/items")
 
     return render_template("add_item.html")
 
-# ---------------------- TRANSACTIONS ----------------------
-@app.route("/transactions")
-def transactions():
-    if "user" not in session:
-        return redirect("/login")
+@app.route("/items")
+def items():
+    con = get_db()
+    cur = con.cursor()
+    cur.execute("SELECT * FROM inventory ORDER BY id DESC")
+    data = cur.fetchall()
+    return render_template("items.html", data=data)
 
-    conn = sqlite3.connect(DB)
-    c = conn.cursor()
-    c.execute("SELECT * FROM items ORDER BY timestamp DESC")
-    rows = c.fetchall()
-    conn.close()
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
-    return render_template("transactions.html", rows=rows)
-
-# ---------------------- ANALYTICS ----------------------
-@app.route("/analytics")
-def analytics():
-    if "user" not in session:
-        return redirect("/login")
-
-    conn = sqlite3.connect(DB)
-    c = conn.cursor()
-    c.execute("""
-        SELECT item_name, SUM(quantity), SUM(quantity * price)
-        FROM items
-        GROUP BY item_name
-    """)
-    summary = c.fetchall()
-    conn.close()
-
-    return render_template("analytics.html", summary=summary)
-
-# ---------------------- RUN ----------------------
+# Render compatibility
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
