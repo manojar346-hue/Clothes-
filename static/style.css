@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #1c1c1c;
+    color: white;
+}
+
+.container {
+    width: 450px;
+    background: #333;
+    padding: 20px;
+    margin: 40px auto;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background: #444;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #666;
+}
