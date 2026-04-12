@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head><title>Transactions</title></head>
-<body>
-<h2>Inventory Transactions</h2>
+{% extends "base.html" %}
+{% block content %}
+<h3 style="text-align:center;">Transactions</h3>
 
-<table border="1">
-<tr>
-    <th>Name</th><th>Size</th><th>Color</th><th>Quantity</th><th>Price</th><th>Timestamp</th>
-</tr>
+<table>
+    <tr>
+        <th>Item</th>
+        <th>Size</th>
+        <th>Color</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Time</th>
+    </tr>
 
-{% for t in data %}
-<tr>
-    <td>{{ t[1] }}</td>
-    <td>{{ t[2] }}</td>
-    <td>{{ t[3] }}</td>
-    <td>{{ t[4] }}</td>
-    <td>{{ t[5] }}</td>
-    <td>{{ t[6] }}</td>
-</tr>
-{% endfor %}
+    {% for row in rows %}
+    <tr>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+    </tr>
+    {% endfor %}
 </table>
-
-</body>
-</html>
+{% endblock %}
