@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Analytics</title></head>
+<body>
+<h2>Sales Analytics</h2>
+
+<table border="1">
+<tr>
+    <th>Item</th><th>Total Qty Sold</th><th>Total Revenue</th>
+</tr>
+
+{% for r in report %}
+<tr>
+    <td>{{ r[0] }}</td>
+    <td>{{ r[1] }}</td>
+    <td>₹{{ r[2] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
