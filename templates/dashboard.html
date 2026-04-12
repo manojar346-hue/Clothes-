@@ -1,22 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>Dashboard</h3>
+<div class="container">
+    <h3 style="text-align:center;">Dashboard</h3>
 
-<div class="grid">
-    <div class="card">
-        <h4>Add Inventory</h4>
-        <a href="/add_item">Go</a>
-    </div>
+    <div class="card-grid">
 
-    <div class="card">
-        <h4>Transactions</h4>
-        <a href="/transactions">View</a>
-    </div>
+        <a class="card" href="/add_item">
+            <h2>➕ Add New Item</h2>
+            <p>Add stock with size & color</p>
+        </a>
 
-    <div class="card">
-        <h4>Analytics</h4>
-        <a href="/analytics">View</a>
+        <a class="card" href="/items">
+            <h2>📦 View Inventory</h2>
+            <p>Check all items in stock</p>
+        </a>
+
+        <a class="card" href="/analytics">
+            <h2>📊 Analytics</h2>
+            <p>Sales & stock reports</p>
+        </a>
+
     </div>
 </div>
 
