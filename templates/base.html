@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Store App</title>
+    <title>{{ title if title else "My Website" }}</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<div class="nav">
-    <h2>Store Manager</h2>
-    <div>
-        <a href="/dashboard">Home</a>
-        <a href="/add_item">Add</a>
-        <a href="/items">Items</a>
-        <a href="/logout">Logout</a>
-    </div>
-</div>
+<nav class="navbar">
+    <h2 class="logo">MySite</h2>
 
-{% block content %}{% endblock %}
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        {% if session.get('user') %}
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/logout" class="logout">Logout</a></li>
+        {% else %}
+        <li><a href="/login">Login</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
 
 </body>
 </html>
