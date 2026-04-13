@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
-    <h3>Add Inventory Item</h3>
+<div class="box">
+    <h3>Add Item</h3>
 
     <form method="POST">
+        <input name="name" placeholder="Item name" required>
 
-        <input name="item_name" placeholder="Item Name" required>
-
-        <select name="size" required>
-            <option value="">Select Size</option>
+        <select name="size">
             <option>S</option>
             <option>M</option>
             <option>L</option>
@@ -17,13 +15,10 @@
         </select>
 
         <input name="color" placeholder="Color" required>
-
         <input name="quantity" type="number" placeholder="Quantity" required>
+        <input name="price" type="number" placeholder="Price" required>
 
-        <input name="price" type="number" step="0.01" placeholder="Price" required>
-
-        <button type="submit">Add Item</button>
-
+        <button>Add</button>
     </form>
 </div>
 
