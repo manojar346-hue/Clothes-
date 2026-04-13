@@ -1,11 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2 style="text-align:center;">Dashboard</h2>
-
-<div class="cards">
-    <a href="/add_item" class="card">➕ Add Item</a>
-    <a href="/items" class="card">📦 View Items</a>
-</div>
-
+<h1>Welcome, {{ username }}!</h1>
+<p>You are successfully logged in.</p>
 {% endblock %}
