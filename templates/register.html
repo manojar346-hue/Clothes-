@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
+<div class="box">
     <h3>Register</h3>
 
     <form method="POST">
-        <input name="username" placeholder="Enter Username" required>
-
-        <input name="password" type="password" placeholder="Enter Password" required>
-
-        <button type="submit">Register</button>
+        <input name="username" placeholder="Username" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <button>Register</button>
     </form>
 
-    <p style="text-align:center;">
-        Already have account? <a href="/login">Login</a>
-    </p>
 </div>
 
 {% endblock %}
