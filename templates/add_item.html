@@ -1,22 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="text-align:center;">Add Inventory Item</h2>
+<h2>Add Inventory Item</h2>
 
-<form method="POST" class="card">
-    <input name="item_name" placeholder="Item Name" required>
+<form method="POST">
+    <input type="text" name="item_name" placeholder="Item Name" required>
 
     <select name="size" required>
-        <option>Select Size</option>
         <option>S</option>
         <option>M</option>
         <option>L</option>
         <option>XL</option>
     </select>
 
-    <input name="color" placeholder="Color" required>
+    <input type="text" name="color" placeholder="Color" required>
     <input type="number" name="quantity" placeholder="Quantity" required>
     <input type="number" name="price" placeholder="Price" required>
 
-    <button type="submit">Save</button>
+    <button>Add Item</button>
 </form>
 {% endblock %}
