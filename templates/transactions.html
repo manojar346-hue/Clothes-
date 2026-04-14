@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="text-align:center;">All Transactions</h2>
 
-<table border="1" cellpadding="10" style="margin:auto; margin-top:20px;">
+<h2>Inventory Transactions</h2>
+
+<table class="table">
     <tr>
         <th>ID</th>
         <th>Item</th>
@@ -10,7 +11,7 @@
         <th>Color</th>
         <th>Qty</th>
         <th>Price</th>
-        <th>Timestamp</th>
+        <th>Time</th>
     </tr>
 
     {% for row in data %}
