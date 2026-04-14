@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2>Create Account</h2>
+<h2 style="text-align:center;">Register</h2>
 
 <form method="POST" class="card">
-
-    <input type="text" name="username" placeholder="Choose username" required>
-
-    <input type="password" name="password" placeholder="Choose password" required>
+    <input name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
 
     {% if message %}
-    <p class="error">{{ message }}</p>
+    <p style="color:red;">{{ message }}</p>
     {% endif %}
 
     <button type="submit">Register</button>
 </form>
-
 {% endblock %}
