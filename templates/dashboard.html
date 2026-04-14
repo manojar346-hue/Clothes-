@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2 style="text-align:center;">Welcome to Dashboard</h2>
 
+<div class="cards">
+    <a class="card" href="/add_item">
+        <h3>➕ Add Item</h3>
+    </a>
+    <a class="card" href="/transactions">
+        <h3>📦 Transactions</h3>
+    </a>
+    <a class="card" href="/analytics">
+        <h3>📊 Analytics</h3>
+    </a>
+</div>
 {% endblock %}
