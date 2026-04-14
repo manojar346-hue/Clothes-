@@ -2,32 +2,38 @@ body {
     background: #121212;
     color: white;
     font-family: Arial;
+    margin: 0;
 }
 
-.navbar {
-    background: #1e1e1e;
-    padding: 15px;
+.nav {
     display: flex;
     justify-content: space-between;
+    padding: 15px;
+    background: #1e1e1e;
 }
 
-.card {
-    background: #1e1e1e;
-    padding: 20px;
-    width: 350px;
-    border-radius: 10px;
-    margin: auto;
+.nav a {
+    color: #bb86fc;
+    margin-left: 15px;
+    text-decoration: none;
 }
-input, select {
+
+.box {
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 10px;
+}
+
+input, button {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
 }
+
 button {
-    width: 100%;
-    padding: 10px;
     background: #6200ea;
     color: white;
     border: none;
-    border-radius: 5px;
 }
