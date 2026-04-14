@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 style="text-align:center;">Sales Analytics</h2>
 
-<h3>Total Revenue: ₹{{ revenue }}</h3>
+<h2>Sales Analytics</h2>
 
-<h3>Sales by Size:</h3>
-<ul>
-{% for size, qty in size_data %}
-    <li>{{ size }} = {{ qty }} items</li>
-{% endfor %}
-</ul>
+<table class="table">
+    <tr>
+        <th>Item</th>
+        <th>Total Quantity</th>
+        <th>Total Income</th>
+    </tr>
+
+    {% for r in report %}
+    <tr>
+        <td>{{ r[0] }}</td>
+        <td>{{ r[1] }}</td>
+        <td>₹{{ r[2] }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
